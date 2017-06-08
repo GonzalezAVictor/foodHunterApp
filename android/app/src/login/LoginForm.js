@@ -20,7 +20,7 @@ export default class LoginForm extends React.Component {
       	<TextInput
       		style={ styles.textInput }
       		placeholder="Password"
-      		secureTextEntr
+      		secureTextEntry
     		/>
       	<TouchableOpacity style={ styles.buttonsContainer }>
       		<Text style={ styles.buttonText }>LOGIN</Text>
