@@ -1,28 +1,55 @@
 import React from 'react';
 import { View, StyleSheet, TextInput, AppRegistry, Image, Text, TouchableOpacity } from 'react-native';
+import Api from './../api/Api';
 
 export default class LoginForm extends React.Component {
-  static propTypes = {
-    name: React.PropTypes.string,
-  };
-
   constructor(props) {
     super(props);
+    this.state = {
+      userName: '',
+      password: '',
+      errorMessage: '',
+      token: '',
+    }
+    this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  handleLogin() {
+    credentials = {
+      userName: 'user1@gmail.com',
+      password: '1234',
+    };
+    let cb = (response) => {
+      this.setState({token: response})
+      this.verifyUser();
+    }
+    let response = Api.login(credentials, cb);
+  }
+
+  verifyUser() {
+    if (this.state.token !== '') {
+      console.log(this.state.token);
+    } else {
+      // TODO: mostrar 'usuario y/o contraseña no validos'
+    }
   }
 
   render() {
+
     return (
       <View style={ styles.container }>
       	<TextInput
+          onChangeText={(text) => this.setState({userName: text})}
       		style={ styles.textInput }
       		placeholder="Username"
     		/>
       	<TextInput
+          onChangeText={(text) => this.setState({password: text})}
       		style={ styles.textInput }
       		placeholder="Password"
       		secureTextEntry
     		/>
-      	<TouchableOpacity style={ styles.buttonsContainer }>
+      	<TouchableOpacity style={ styles.buttonsContainer} onPress={this.handleLogin}>
       		<Text style={ styles.buttonText }>LOGIN</Text>
       	</TouchableOpacity>
       </View>
@@ -41,7 +68,8 @@ const styles = StyleSheet.create({
   	borderRadius: 4,
   },
   buttonsContainer: {
-  	backgroundColor: 'rgba(67, 255, 175, 0.75)',
+  	backgroundColor: '#00A700',
+    borderRadius: 4,
   	height: 30
   },
   buttonText: {
