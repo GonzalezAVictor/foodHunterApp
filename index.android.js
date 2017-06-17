@@ -16,7 +16,18 @@ function appReducer(state, action) {
   switch (action.type) {
     case 'ADD_SELECTED_CATEGORY':
       console.log('ADD_SELECTED_CATEGORY');
-      return newState;
+      return Object.assign({}, state, { 
+        IdCategoriesSelected: [...state.IdCategoriesSelected, action.id] 
+      });
+      break;
+    case 'REMOVE_SELECTED_CATEGORY':
+      console.log('REMOVE_SELECTED_CATEGORY <-');
+      let categoryIndex = state.IdCategoriesSelected.findIndex((categoryId) => {
+        return categoryId === action.id;
+      });
+      return Object.assign({}, state, { 
+        IdCategoriesSelected: [...state.IdCategoriesSelected.slice(0, categoryIndex), ...state.IdCategoriesSelected.slice(categoryIndex + 1)] 
+      }) 
       break;
     default:
       return state
@@ -26,8 +37,6 @@ function appReducer(state, action) {
 let store = createStore(appReducer, globalState);
 
 console.log('store: ', store.getState());
-
-store.dispatch({type: 'ADD_SELECTED_CATEGORY'});
 
 export default class foodHunterApp extends Component {
   constructor(props) {

@@ -38,22 +38,15 @@ class Home extends React.Component {
   }
 
   addCategory(id) {
-    this.props.addIdCategory();
-    let category = this.state.categoriesSelected.findIndex((categoryId) => {
+    let category = this.props.IdCategoriesSelected.findIndex((categoryId) => {
       return categoryId === id;
     });
     if (category === -1) {
-      let newCategoriesSelectedState = this.state.categoriesSelected.slice();
-      newCategoriesSelectedState.push(id);
-      this.setState({
-        categoriesSelected: newCategoriesSelectedState
-      });
+      this.props.addIdCategory(id);
+      console.log('Añadir el id de la categoria al store');
     } else {
-      let newCategoriesSelectedState = this.state.categoriesSelected.slice();
-      newCategoriesSelectedState.splice(category, 1);
-      this.setState({
-        categoriesSelected: newCategoriesSelectedState
-      });
+      this.props.remomeIdCategory(id);
+      console.log('Remover el id de la categoria al store');
     }
     console.log('id: ', category);
   }
@@ -68,7 +61,7 @@ class Home extends React.Component {
   }
 
   getAllRestaurants() {
-    console.log('categoriesSelected: ', this.state.categoriesSelected);
+    console.log('categoriesSelected: ', this.props.IdCategoriesSelected);
   }
 
   goUserProfile() {
@@ -85,6 +78,7 @@ class Home extends React.Component {
           <TextInput style={styles.searchBar}/>
         </View>
         <View style={styles.homeBodyContainer}>
+          <Text>{this.props.IdCategoriesSelected.length}</Text>
           <ScrollView>
             {this.createCards()}
           </ScrollView>
@@ -153,14 +147,21 @@ Home.contextType ={
 } 
 
 let mapStateToProps = state => {
-  return {IdCategoriesSelected: state.IdCategoriesSelected}
+  return {
+    IdCategoriesSelected: state.IdCategoriesSelected
+  }
 }
 
 function mapDispatchToProps(dispatch, ownProps) { 
   return { 
-    addIdCategory: () => dispatch({ 
-      type: 'ADD_SELECTED_CATEGORY'
-    }) 
+    addIdCategory: (id) => dispatch({ 
+      type: 'ADD_SELECTED_CATEGORY',
+      id: id,
+    }),
+    remomeIdCategory: (id) => dispatch({
+      type: 'REMOVE_SELECTED_CATEGORY',
+      id: id
+    })
   } 
 } 
 
