@@ -5,7 +5,9 @@ import Api from './../api/Api';
 import CategoryCard from './CategoryCard';
 import Icon from'react-native-vector-icons/Ionicons';
 
-export default class Home extends React.Component {
+import { connect } from 'react-redux';
+
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +21,7 @@ export default class Home extends React.Component {
   }
 
   componentWillMount() {
-    console.log('mounting');
+    console.log('mounting: ', this.props.IdCategoriesSelected);
     let cb = (response) => {
       this.setState({
         categories: response
@@ -36,6 +38,7 @@ export default class Home extends React.Component {
   }
 
   addCategory(id) {
+    this.props.addIdCategory();
     let category = this.state.categoriesSelected.findIndex((categoryId) => {
       return categoryId === id;
     });
@@ -74,27 +77,27 @@ export default class Home extends React.Component {
 
   render() {
     return (
-    <View style={styles.container}>
-      <View style={styles.searchBarContainer}>
-        <TouchableOpacity onPress={this.goUserProfile}>
-          <Icon style={styles.personIcon} name="md-person" size={35} color="#2C0F19" />
-        </TouchableOpacity>
-        <TextInput style={styles.searchBar}/>
+      <View style={styles.container}>
+        <View style={styles.searchBarContainer}>
+          <TouchableOpacity onPress={this.goUserProfile}>
+            <Icon style={styles.personIcon} name="md-person" size={35} color="#2C0F19" />
+          </TouchableOpacity>
+          <TextInput style={styles.searchBar}/>
+        </View>
+        <View style={styles.homeBodyContainer}>
+          <ScrollView>
+            {this.createCards()}
+          </ScrollView>
+        </View>
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity style={ styles.button50} onPress={this.getAllRestaurants}>
+            <Text style={ styles.showAll }>Todos</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={ styles.button50 } onPress={this.getRandomRestaurant}>
+            <Text style={ styles.random }>Aleatorio</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.homeBodyContainer}>
-        <ScrollView>
-          {this.createCards()}
-        </ScrollView>
-      </View>
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={ styles.button50} onPress={this.getAllRestaurants}>
-          <Text style={ styles.showAll }>Todos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={ styles.button50 } onPress={this.getRandomRestaurant}>
-          <Text style={ styles.random }>Aleatorio</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
     );
   }
 }
@@ -144,5 +147,31 @@ const styles = StyleSheet.create({
     padding: 10
   }
 });
+
+Home.contextType ={ 
+  store: React.PropTypes.object 
+} 
+
+let mapStateToProps = state => {
+  return {IdCategoriesSelected: state.IdCategoriesSelected}
+}
+
+function mapDispatchToProps(dispatch, ownProps) { 
+  return { 
+    addIdCategory: () => dispatch({ 
+      type: 'ADD_SELECTED_CATEGORY'
+    }) 
+  } 
+} 
+
+// let mapDispatchToProps = dispatch => {
+//   return {
+//     addIdCategory: () => {
+//       dispatch({type: 'ADD_SELECTED_CATEGORY'});
+//     }
+//   }
+// }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 AppRegistry.registerComponent('Home', () => Home);
