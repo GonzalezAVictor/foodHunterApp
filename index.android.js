@@ -1,70 +1,58 @@
 import React, { Component } from 'react';
-import { AppRegistry, View } from 'react-native';
-import Login from './android/app/src/login/Login';
-import Home from './android/app/src/home/Home';
-import RestaurantProfile from './android/app/src/restaurants/RestaurantProfile';
-import RestaurantList from './android/app/src/restaurants/RestaurantList';
-import UserProfile from './android/app/src/users/UserProfile';
+import { AppRegistry, View, Text } from 'react-native';
+import AndroidApp from './android/app/AndroidApp';
+import { Provider } from 'react-redux';
+
+import { createStore, combineReducers } from 'redux';
+
+let globalState = {
+  IdCategoriesSelected: [],
+  currentRestaurant: {},
+  currentRestaurants: {},
+}
+
+function appReducer(state, action) {
+  let newState = Object.assign({}, state);
+  switch (action.type) {
+    case 'ADD_SELECTED_CATEGORY':
+      console.log('ADD_SELECTED_CATEGORY');
+      return Object.assign({}, state, { 
+        IdCategoriesSelected: [...state.IdCategoriesSelected, action.id] 
+      });
+      break;
+    case 'REMOVE_SELECTED_CATEGORY':
+      console.log('REMOVE_SELECTED_CATEGORY <-');
+      let categoryIndex = state.IdCategoriesSelected.findIndex((categoryId) => {
+        return categoryId === action.id;
+      });
+      return Object.assign({}, state, { 
+        IdCategoriesSelected: [...state.IdCategoriesSelected.slice(0, categoryIndex), ...state.IdCategoriesSelected.slice(categoryIndex + 1)] 
+      }) 
+      break;
+    default:
+      return state
+  }
+}
+
+let store = createStore(appReducer, globalState);
+
+console.log('store: ', store.getState());
 
 export default class foodHunterApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentView: 'Login',
-      input: {}
     }
-    this.handleChangeView = this.handleChangeView.bind(this);
   }
-
-  handleChangeView(newView, input) {
-    this.setState({input: input});
-    this.setState({currentView: newView});
-  }
-
   render() {
-    console.log('input: ', this.state.input);
-    switch (this.state.currentView) {
-      case 'Home':
-        return (
-          <View style={{flex: 1}}>
-            <Home
-              changeView={this.handleChangeView}
-              input={this.state.input}
-            />
-          </View>
-        );
-        break;
-      case 'UserProfile':
-        return (
-          <View style={{flex: 1}}>
-            <UserProfile
-              changeView={this.handleChangeView}
-              input={this.state.input}
-            />
-          </View>
-        );
-        break;
-      case'RestaurantList':
-        return (
-          <View style={{flex: 1}}>
-            <RestaurantList
-              changeView={this.handleChangeView}
-              input={this.state.input}
-            />
-          </View>
-        );
-        break;
-      default:
-        return (
-          <View style={{flex: 1}}>
-            <Login
-              changeView={this.handleChangeView}
-              input={this.state.input}
-            />
-          </View>
-        );
-    }
+    console.log('render foodHunterApp');
+    return (
+      <Provider store={store}>
+        <AndroidApp/>
+      </Provider>
+    );
   }
 }
+
 
 AppRegistry.registerComponent('foodHunterApp', () => foodHunterApp);
