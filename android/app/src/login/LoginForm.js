@@ -1,5 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, TextInput, AppRegistry, Image, Text, TouchableOpacity } from 'react-native';
+import { View, 
+  StyleSheet,
+  TextInput,
+  AppRegistry,
+  Image,
+  Text,
+  TouchableOpacity,
+  AsyncStorage
+} from 'react-native';
 import Api from './../api/Api';
 
 export default class LoginForm extends React.Component {
@@ -16,7 +24,7 @@ export default class LoginForm extends React.Component {
 
   handleLogin() {
     credentials = {
-      userName: 'user1@gmail.com',
+      userName: 'victor@gmail.com',
       password: '1234',
     };
     let cb = (response) => {
@@ -29,6 +37,12 @@ export default class LoginForm extends React.Component {
   verifyUser() {
     if (this.state.token !== '') {
       console.log(this.state.token);
+      this.props.changeView('Home');
+      let userData = {
+        userData: this.state.userName,
+        token: this.state.token,
+      };
+      AsyncStorage.setItem('userData', userData);
     } else {
       // TODO: mostrar 'usuario y/o contraseña no validos'
     }

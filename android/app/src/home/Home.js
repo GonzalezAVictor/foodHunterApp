@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, TextInput, AppRegistry, Image, Text, TouchableOpacity, Dimensions} from 'react-native';
+import { View, StyleSheet, TextInput, AppRegistry, Image, Text, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
 import Api from './../api/Api';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import CategoryCard from './CategoryCard';
+// import Icon from'react-native-vector-icons/Ionicons';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -57,7 +59,7 @@ export default class Home extends React.Component {
     let cb = () => {
       console.log('ccccccbbbbbbb');
     }
-    Api.getRandomRestaurant(categoriesId, cb);
+    Api.getRandomRestaurant(this.state.categoriesSelected, cb);
   }
 
   getAllRestaurants() {
@@ -68,13 +70,13 @@ export default class Home extends React.Component {
     return (
     <View style={styles.container}>
       <View style={styles.searchBarContainer}>
-        <Text>
-          ICONO
-        </Text>
+        <Icon name="rss" size={30} color="#900" />
         <TextInput style={styles.searchBar}/>
       </View>
       <View style={styles.homeBodyContainer}>
-        {this.createCards()}
+        <ScrollView>
+          {this.createCards()}
+        </ScrollView>
       </View>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={ styles.button50} onPress={this.getAllRestaurants}>

@@ -37,7 +37,7 @@ function getCategories(cb) {
     });
 }
 
-function getRandomRestaurant(cb) {
+function getRandomRestaurant(catedoriesId, cb) {
   console.log('API getRandomRestaurant');
   fetch(FH_API_ENDPOINT.concat('/restaurants/random'), {
     method: 'POST',

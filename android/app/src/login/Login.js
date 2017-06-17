@@ -16,7 +16,7 @@ export default class Login extends React.Component {
       	<Text style={styles.logo}>
       		FOOD HUNTER
       	</Text>
-      	<LoginForm/>
+      	<LoginForm changeView={this.props.changeView}/>
       </View>
     );
   }
