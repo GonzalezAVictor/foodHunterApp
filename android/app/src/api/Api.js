@@ -46,12 +46,12 @@ function getRandomRestaurant(catedoriesId, cb) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      'restaurantsId': [1, 2, 3]
+      'categoriesId': catedoriesId
     })
-  }).then((response) => {response.json()})
+  }).then((response) => response.json())
     .then((responseJson) => {
-      console.log('respuesta: ', responseJson);
-      cb(responseJson);
+      console.log('lalalalalalala: ', responseJson);
+      // cb(responseJson.data);
     })
     .catch((error) => {
       console.error(error);

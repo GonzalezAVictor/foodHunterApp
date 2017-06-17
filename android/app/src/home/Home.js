@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, TextInput, AppRegistry, Image, Text, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
 import Api from './../api/Api';
-import Icon from 'react-native-vector-icons/FontAwesome';
+// import Icon from 'react-native-vector-icons/FontAwesome';
 import CategoryCard from './CategoryCard';
-// import Icon from'react-native-vector-icons/Ionicons';
+import Icon from'react-native-vector-icons/Ionicons';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -15,6 +15,7 @@ export default class Home extends React.Component {
     this.addCategory = this.addCategory.bind(this);
     this.getRandomRestaurant = this.getRandomRestaurant.bind(this);
     this.getAllRestaurants = this.getAllRestaurants.bind(this);
+    this.goUserProfile = this.goUserProfile.bind(this);
   }
 
   componentWillMount() {
@@ -60,17 +61,24 @@ export default class Home extends React.Component {
       console.log('ccccccbbbbbbb');
     }
     Api.getRandomRestaurant(this.state.categoriesSelected, cb);
+    this.props.changeView('RestaurantList');
   }
 
   getAllRestaurants() {
     console.log('categoriesSelected: ', this.state.categoriesSelected);
   }
 
+  goUserProfile() {
+    this.props.changeView('UserProfile');
+  }
+
   render() {
     return (
     <View style={styles.container}>
       <View style={styles.searchBarContainer}>
-        <Icon name="rss" size={30} color="#900" />
+        <TouchableOpacity onPress={this.goUserProfile}>
+          <Icon style={styles.personIcon} name="md-person" size={35} color="#2C0F19" />
+        </TouchableOpacity>
         <TextInput style={styles.searchBar}/>
       </View>
       <View style={styles.homeBodyContainer}>
@@ -132,6 +140,8 @@ const styles = StyleSheet.create({
   }, random: {
     color: '#E2374B',
     fontSize: 20,
+  }, personIcon: {
+    padding: 10
   }
 });
 
