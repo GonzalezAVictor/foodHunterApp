@@ -52,12 +52,12 @@ class Home extends React.Component {
   }
 
   getRandomRestaurant() {
-    console.log('getRandomRestaurant ', this.state.categoriesSelected);
-    let cb = () => {
-      console.log('ccccccbbbbbbb');
+    console.log('getRandomRestaurant ', this.props.IdCategoriesSelected);
+    let cb = (restaurant) => {
+      this.props.setCurrentRestaurant(restaurant);
+      this.props.setCurrentView('RestaurantProfile');
     }
-    Api.getRandomRestaurant(this.state.categoriesSelected, cb);
-    this.props.changeView('RestaurantList');
+    Api.getRandomRestaurant(this.props.IdCategoriesSelected, cb);
   }
 
   getAllRestaurants() {
@@ -65,7 +65,7 @@ class Home extends React.Component {
   }
 
   goUserProfile() {
-    this.props.changeView('UserProfile');
+    this.props.setCurrentView('UserProfile');
   }
 
   render() {
@@ -78,7 +78,6 @@ class Home extends React.Component {
           <TextInput style={styles.searchBar}/>
         </View>
         <View style={styles.homeBodyContainer}>
-          <Text>{this.props.IdCategoriesSelected.length}</Text>
           <ScrollView>
             {this.createCards()}
           </ScrollView>
@@ -142,10 +141,6 @@ const styles = StyleSheet.create({
   }
 });
 
-Home.contextType ={ 
-  store: React.PropTypes.object 
-} 
-
 let mapStateToProps = state => {
   return {
     IdCategoriesSelected: state.IdCategoriesSelected
@@ -153,7 +148,7 @@ let mapStateToProps = state => {
 }
 
 function mapDispatchToProps(dispatch, ownProps) { 
-  return { 
+  return {
     addIdCategory: (id) => dispatch({ 
       type: 'ADD_SELECTED_CATEGORY',
       id: id,
@@ -161,17 +156,17 @@ function mapDispatchToProps(dispatch, ownProps) {
     remomeIdCategory: (id) => dispatch({
       type: 'REMOVE_SELECTED_CATEGORY',
       id: id
+    }),
+    setCurrentRestaurant: (restaurant) => dispatch({
+      type:'SET_CURRENT_RESTAURANT',
+      restaurant: restaurant
+    }),
+    setCurrentView: (view) => dispatch({
+      type: 'SET_CURRENT_VIEW',
+      view: view
     })
   } 
 } 
-
-// let mapDispatchToProps = dispatch => {
-//   return {
-//     addIdCategory: () => {
-//       dispatch({type: 'ADD_SELECTED_CATEGORY'});
-//     }
-//   }
-// }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
 

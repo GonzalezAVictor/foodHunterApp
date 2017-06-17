@@ -6,11 +6,13 @@ import RestaurantProfile from './src/restaurants/RestaurantProfile';
 import RestaurantList from './src/restaurants/RestaurantList';
 import UserProfile from './src/users/UserProfile';
 
-export default class AndroidApp extends Component {
+import { connect } from 'react-redux';
+
+class AndroidApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentView: 'Login'
+      currentView: 'Home'
     }
     this.handleChangeView = this.handleChangeView.bind(this);
   }
@@ -20,44 +22,51 @@ export default class AndroidApp extends Component {
   }
 
   render() {
-    switch (this.state.currentView) {
+    switch (this.props.currentView) {
       case 'Home':
         return (
           <View style={{flex: 1}}>
-            <Home
-              changeView={this.handleChangeView}
-            />
+            <Home/>
           </View>
         );
         break;
       case 'UserProfile':
         return (
           <View style={{flex: 1}}>
-            <UserProfile
-              changeView={this.handleChangeView}
-            />
+            <UserProfile/>
           </View>
         );
         break;
       case'RestaurantList':
         return (
           <View style={{flex: 1}}>
-            <RestaurantList
-              changeView={this.handleChangeView}
-            />
+            <RestaurantList/>
+          </View>
+        );
+        break;
+      case'RestaurantProfile':
+        return (
+          <View style={{flex: 1}}>
+            <RestaurantProfile/>
           </View>
         );
         break;
       default:
         return (
           <View style={{flex: 1}}>
-            <Login
-              changeView={this.handleChangeView}
-            />
+            <Login/>
           </View>
         );
     }
   }
 }
+
+let mapStateToProps = state => {
+  return {
+    currentView: state.currentView
+  }
+}
+
+export default connect(mapStateToProps)(AndroidApp);
 
 AppRegistry.registerComponent('AndroidApp', () => AndroidApp);

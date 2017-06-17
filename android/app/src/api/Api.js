@@ -48,14 +48,9 @@ function getRandomRestaurant(catedoriesId, cb) {
     body: JSON.stringify({
       'categoriesId': catedoriesId
     })
-  }).then((response) => response.json())
-    .then((responseJson) => {
-      console.log('lalalalalalala: ', responseJson);
-      // cb(responseJson.data);
+  }).then((response) => response.json()).then((responseJson) => {
+      cb(responseJson.data);
     })
-    .catch((error) => {
-      console.error(error);
-    });
 }
 
 

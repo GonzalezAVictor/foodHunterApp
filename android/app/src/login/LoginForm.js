@@ -10,7 +10,9 @@ import { View,
 } from 'react-native';
 import Api from './../api/Api';
 
-export default class LoginForm extends React.Component {
+import { connect } from 'react-redux';
+
+class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,12 +39,12 @@ export default class LoginForm extends React.Component {
   verifyUser() {
     if (this.state.token !== '') {
       console.log(this.state.token);
-      this.props.changeView('Home');
       let userData = {
         userData: this.state.userName,
         token: this.state.token,
       };
       AsyncStorage.setItem('userData', userData);
+      this.props.setCurrentView('Home');
     } else {
       // TODO: mostrar 'usuario y/o contraseña no validos'
     }
@@ -90,5 +92,23 @@ const styles = StyleSheet.create({
   	textAlign: 'center'
   }
 });
+
+
+let mapStateToProps = state => {
+  return {
+    currentView: state.currentView
+  }
+}
+
+function mapDispatchToProps(dispatch, ownProps) { 
+  return {
+    setCurrentView: (view) => dispatch({
+      type: 'SET_CURRENT_VIEW',
+      view: view
+    })
+  } 
+} 
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
 
 AppRegistry.registerComponent('LoginForm', () => LoginForm);

@@ -9,6 +9,7 @@ let globalState = {
   IdCategoriesSelected: [],
   currentRestaurant: {},
   currentRestaurants: {},
+  currentView: 'Home'
 }
 
 function appReducer(state, action) {
@@ -21,7 +22,7 @@ function appReducer(state, action) {
       });
       break;
     case 'REMOVE_SELECTED_CATEGORY':
-      console.log('REMOVE_SELECTED_CATEGORY <-');
+      console.log('REMOVE_SELECTED_CATEGORY');
       let categoryIndex = state.IdCategoriesSelected.findIndex((categoryId) => {
         return categoryId === action.id;
       });
@@ -29,8 +30,20 @@ function appReducer(state, action) {
         IdCategoriesSelected: [...state.IdCategoriesSelected.slice(0, categoryIndex), ...state.IdCategoriesSelected.slice(categoryIndex + 1)] 
       }) 
       break;
+    case 'SET_CURRENT_RESTAURANT':
+      console.log('SET_CURRENT_RESTAURANT');
+      newState.currentRestaurant = action.restaurant;
+      console.log(newState);
+      return newState;
+      break;
+    case 'SET_CURRENT_VIEW':
+      console.log('SET_CURRENT_VIEW');
+      newState.currentView = action.view;
+      console.log(newState);
+      return newState;
+      break;
     default:
-      return state
+      return state;
   }
 }
 
