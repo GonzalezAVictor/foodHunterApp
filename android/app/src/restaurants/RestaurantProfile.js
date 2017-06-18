@@ -26,8 +26,8 @@ class RestaurantProfile extends React.Component {
   }
 
   createPromotionsList() {
-    return this.props.currentRestaurant.promotions.map((promotion) => {
-      return <PromotionItem promotion={promotion}/>
+    return this.props.currentRestaurant.promotions.map((promotion, i) => {
+      return <PromotionItem key={i} promotion={promotion}/>
     })
   }
 

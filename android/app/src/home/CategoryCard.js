@@ -5,7 +5,6 @@ export default class CategoryCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: false
     }
     this.addCategory = this.addCategory.bind(this);
   }
@@ -17,7 +16,7 @@ export default class CategoryCard extends React.Component {
   }
 
   render() {
-    if (this.state.selected) {
+    if (this.props.selected) {
       return (
         <View>
           <TouchableOpacity style={styles.categoryCardSelected} onPress={this.addCategory}>

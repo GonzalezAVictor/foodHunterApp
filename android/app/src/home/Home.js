@@ -33,7 +33,14 @@ class Home extends React.Component {
 
   createCards() {
     return this.state.categories.map((category, i) => {
-      return <CategoryCard key={i} category={category} addCategory={this.addCategory}/>
+      let selected = false;
+      if (this.props.IdCategoriesSelected.indexOf(category.id) !== -1) {selected = true;}
+      return <CategoryCard 
+        key={i} 
+        category={category} 
+        addCategory={this.addCategory}
+        selected={selected}
+      />
     })
   }
 
