@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   promotionsList: {
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
     borderRadius: 8,
     margin: 5
   }

@@ -14,12 +14,7 @@ import {
 export default class RestaurantCard extends React.Component {
   constructor(props) {
     super(props);
-    // this.addCategory = this.addCategory.bind(this);
   }
-
-  // addCategory() {
-  //   this.props.addCategory(this.props.category.id);
-  // }
 
   createCategoriesList() {
     return this.props.restaurant.categories.map((category) => {
@@ -30,7 +25,7 @@ export default class RestaurantCard extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.restaurantImage}>Restaurant Image</Text>
+        <Image style={styles.restaurantImage} source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}/>
         {this.createCategoriesList()}
       </View>
     );
@@ -39,13 +34,17 @@ export default class RestaurantCard extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E9EAEE',
-    flexDirection: 'row'
+    backgroundColor: '#FFFFFF',
+    flexDirection: 'row',
+    margin: 5,
+    borderRadius: 8
   },
   restaurantImage: {
     width: 150,
     height: 150,
-    backgroundColor: 'red'
+    padding: 10,
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
   }
 });
 

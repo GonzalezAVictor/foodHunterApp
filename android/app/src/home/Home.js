@@ -1,5 +1,15 @@
 import React from 'react';
-import { View, StyleSheet, TextInput, AppRegistry, Image, Text, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
+import { 
+  View, 
+  StyleSheet, 
+  TextInput, 
+  AppRegistry, 
+  Image, 
+  Text, 
+  TouchableOpacity, 
+  Dimensions, 
+  ScrollView
+} from 'react-native';
 import Api from './../api/Api';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import CategoryCard from './CategoryCard';
@@ -82,9 +92,11 @@ class Home extends React.Component {
           <TouchableOpacity onPress={this.goUserProfile}>
             <Icon style={styles.personIcon} name="md-person" size={35} color="#2C0F19" />
           </TouchableOpacity>
-          <TextInput style={styles.searchBar}/>
+          <Text style={styles.headerLabel}>Categorias</Text>
+          <Icon style={styles.personIcon} name="md-search" size={35} color="#2C0F19" />
         </View>
         <View style={styles.homeBodyContainer}>
+
           <ScrollView>
             {this.createCards()}
           </ScrollView>
@@ -145,6 +157,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
   }, personIcon: {
     padding: 10
+  },
+  headerLabel:{
+    fontSize:20,
+    flex: 1,
+    textAlign: 'center'
   }
 });
 
