@@ -7,7 +7,7 @@ import {
   Image,
   Text,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 // require('./img/favicon.png')
 
@@ -17,8 +17,8 @@ export default class RestaurantCard extends React.Component {
   }
 
   createCategoriesList() {
-    return this.props.restaurant.categories.map((category) => {
-      return <Text>{category.name}</Text>
+    return this.props.restaurant.categories.map((category, i) => {
+      return <Text key={i}>{category.name}</Text>
     })
   }
 

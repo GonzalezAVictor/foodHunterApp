@@ -53,6 +53,24 @@ function getRandomRestaurant(catedoriesId, cb) {
     })
 }
 
+function getAllRestaurants(cb) {
+  console.log('API getAllRestaurants');
+  fetch(FH_API_ENDPOINT.concat('/restaurants'), {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  }).then((response) => response.json()).then((responseJson) => {
+    console.log('Api response: ', responseJson.data);
+      cb(responseJson.data);
+    })
+}
 
-const Api = { login, getCategories, getRandomRestaurant };
+const Api = { 
+  login,
+  getCategories,
+  getRandomRestaurant,
+  getAllRestaurants,
+};
 export default Api;
