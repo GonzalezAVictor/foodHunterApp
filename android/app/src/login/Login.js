@@ -13,9 +13,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={ styles.container }>
-      	<Text style={styles.logo}>
-      		FOOD HUNTER
-      	</Text>
+      	<Image source={require('./../../../../images/Logo.jpg')}/>
       	<LoginForm changeView={this.props.changeView}/>
       </View>
     );

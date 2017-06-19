@@ -12,7 +12,6 @@ class AndroidApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentView: 'Home'
     }
     this.handleChangeView = this.handleChangeView.bind(this);
   }

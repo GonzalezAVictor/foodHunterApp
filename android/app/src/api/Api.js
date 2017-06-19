@@ -15,10 +15,32 @@ function login(credentials, cb) {
   }).then((response) => response.json())
     .then((responseJson) => {
       cb(responseJson);
+      return null;
     })
-    .catch((error) => {
-      console.error(error);
-    });
+}
+
+function signUp(userData, cb) {
+  console.log(userData);
+  fetch(FH_API_ENDPOINT.concat('/users'), {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+    })
+  }).then((response) => {
+    console.log(response.status);
+    return response.json();
+  })
+    .then((responseJson) => {
+      console.log('signUp response: ', responseJson);
+      cb(responseJson);
+      return null;
+    })
 }
 
 function getCategories(cb) {
@@ -94,5 +116,6 @@ const Api = {
   getRandomRestaurant,
   getAllRestaurants,
   followRestaurant,
+  signUp,
 };
 export default Api;
