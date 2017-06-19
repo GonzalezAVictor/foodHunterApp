@@ -21,9 +21,20 @@ export default class PromotionItem extends React.Component {
   }
 
   showDescription() {
+    let { promotion } = this.props;
     if (this.state.showDescription) {
       return  <View style={styles.descriptionContainer}>
-        <Text>{ this.props.promotion.details }</Text>
+        <Text>{ promotion.details }</Text>
+        {promotion.promotion_type === 'flash' ? 
+          <Text>{promotion.startAt} - {promotion.endAt}</Text> : <Text>Libres: {promotion.amount_available}</Text>}
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity style={[styles.button, styles.buttomLeft]}>
+              <Text>Seguir</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, styles.buttomRight]}>
+              <Text>Cazar</Text>
+            </TouchableOpacity>
+          </View>
       </View>
     } else {
       return null;
@@ -36,14 +47,17 @@ export default class PromotionItem extends React.Component {
   }
 
   render() {
-    let { promotion } = this.props
+    let { promotion } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.title}>
-          <TouchableOpacity onPress={this.changeStateDescription}>
+          <TouchableOpacity style={{flex: 9}} onPress={this.changeStateDescription}>
             <Text style={styles.promotionName}>{promotion.name}</Text>
           </TouchableOpacity>
-          <Icon style={styles.promotionIcon} name="md-flash" size={25} color="#2C0F19" />
+          {promotion.promotion_type === 'flash' ? 
+            <Icon style={styles.promotionIcon} name="md-flash" size={25} color="#2C0F19" /> : 
+            <Icon style={styles.promotionIcon} name="md-star" size={25} color="#2C0F19" />}
+          
         </View>
         {this.showDescription()}
       </View>
@@ -63,7 +77,7 @@ const styles = StyleSheet.create({
   },
   promotionName: {
     fontSize: 20,
-    width: promotionTitle,
+    flex: 1
   },
   title:{
     flexDirection: 'row',
@@ -72,7 +86,25 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   promotionIcon: {
-    paddingRight: 5
+    flex: 1
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    margin: -10,
+    marginTop: 0
+  },
+  button: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 30,
+    backgroundColor: '#E5C15E'
+  },
+  buttomLeft: {
+    borderBottomLeftRadius: 8
+  },
+  buttomRight: {
+    borderBottomRightRadius: 8
   }
 });
 

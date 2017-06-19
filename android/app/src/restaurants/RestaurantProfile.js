@@ -40,7 +40,7 @@ class RestaurantProfile extends React.Component {
             <Icon style={styles.personIcon} name="md-arrow-back" size={35} color="#2C0F19" />
           </TouchableOpacity>
           <Text style={styles.restaurantName}>{ this.props.currentRestaurant.name }</Text>
-          <Icon style={styles.personIcon} name="md-star-outline" size={35} color="#2C0F19" />
+          <Icon style={styles.personIcon} name="md-heart-outline" size={35} color="#2C0F19" />
         </View>
         <View style={styles.bodyContainer}>
           <RestaurantCard restaurant={this.props.currentRestaurant}/>
