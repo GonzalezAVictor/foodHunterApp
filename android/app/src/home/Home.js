@@ -1,5 +1,16 @@
 import React from 'react';
-import { View, StyleSheet, TextInput, AppRegistry, Image, Text, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
+import { 
+  View, 
+  StyleSheet, 
+  TextInput, 
+  AppRegistry, 
+  Image, 
+  Text, 
+  TouchableOpacity, 
+  Dimensions, 
+  ScrollView,
+  Button
+} from 'react-native';
 import Api from './../api/Api';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import CategoryCard from './CategoryCard';
@@ -13,11 +24,13 @@ class Home extends React.Component {
     this.state = {
       categories: [],
       categoriesSelected: [],
+      searching: false
     }
     this.addCategory = this.addCategory.bind(this);
     this.getRandomRestaurant = this.getRandomRestaurant.bind(this);
     this.getAllRestaurants = this.getAllRestaurants.bind(this);
     this.goUserProfile = this.goUserProfile.bind(this);
+    this.search = this.search.bind(this);
   }
 
   componentWillMount() {
@@ -69,10 +82,41 @@ class Home extends React.Component {
 
   getAllRestaurants() {
     console.log('categoriesSelected: ', this.props.IdCategoriesSelected);
+    let cb = (restaurants) => {
+      this.props.setCurrentRestaurants(restaurants);
+      this.props.setCurrentView('RestaurantList');
+    }
+    Api.getAllRestaurants(cb);
   }
 
   goUserProfile() {
     this.props.setCurrentView('UserProfile');
+  }
+
+  search() {
+    let newSearchingState = this.state.searching;
+    this.setState({searching: !newSearchingState});
+  }
+
+  manageSearchBar() {
+    if (this.state.searching) {
+      return <View style={{ flexDirection:'row', flex: 1 }}>
+        <TextInput
+          style={styles.searchBar}
+        />
+        <TouchableOpacity onPress={this.search}>
+          <Icon style={styles.personIcon} name="md-search" size={35} color="#2C0F19" />
+        </TouchableOpacity>
+      </View>
+      
+    } else {
+      return  <View style={{ flexDirection:'row', flex: 1}}>
+        <Text style={styles.headerLabel}>Categorias</Text>
+        <TouchableOpacity onPress={this.search}>
+          <Icon style={styles.personIcon} name="md-search" size={35} color="#2C0F19" />
+        </TouchableOpacity>
+      </View>
+    }
   }
 
   render() {
@@ -82,7 +126,7 @@ class Home extends React.Component {
           <TouchableOpacity onPress={this.goUserProfile}>
             <Icon style={styles.personIcon} name="md-person" size={35} color="#2C0F19" />
           </TouchableOpacity>
-          <TextInput style={styles.searchBar}/>
+          {this.manageSearchBar()}
         </View>
         <View style={styles.homeBodyContainer}>
           <ScrollView>
@@ -117,6 +161,7 @@ const styles = StyleSheet.create({
   searchBar: {
     flex: 1,
     height: 40,
+    marginTop: 7,
     backgroundColor: '#C2827A',
     borderRadius: 15,
   },
@@ -145,6 +190,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
   }, personIcon: {
     padding: 10
+  },
+  headerLabel:{
+    fontSize: 20,
+    flex: 1,
+    padding: 10,
+    paddingTop: 12,
+    textAlign: 'center',
   }
 });
 
@@ -171,6 +223,10 @@ function mapDispatchToProps(dispatch, ownProps) {
     setCurrentView: (view) => dispatch({
       type: 'SET_CURRENT_VIEW',
       view: view
+    }),
+    setCurrentRestaurants: (restaurants) => dispatch({
+      type: 'SET_CURRENT_RESTAURANTS',
+      restaurants: restaurants
     })
   } 
 } 

@@ -36,6 +36,12 @@ function appReducer(state, action) {
       console.log(newState);
       return newState;
       break;
+    case 'SET_CURRENT_RESTAURANTS':
+      console.log('SET_CURRENT_RESTAURANTS');
+      newState.currentRestaurants = action.restaurants;
+      console.log(newState);
+      return newState;
+      break;
     case 'SET_CURRENT_VIEW':
       console.log('SET_CURRENT_VIEW');
       newState.currentView = action.view;

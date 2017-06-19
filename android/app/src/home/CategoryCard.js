@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   }, categoryLabel: {
     color: '#FFFFFF',
     fontWeight: 'normal',
-    fontSize: 30
+    fontSize: 30,
   }
 });
 

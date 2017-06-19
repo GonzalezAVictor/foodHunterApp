@@ -10,11 +10,10 @@ import {
   Dimensions
 } from 'react-native';
 import Icon from'react-native-vector-icons/Ionicons';
-import RestaurantItemList from './RestaurantItemList';
 
 import { connect } from 'react-redux';
 
-class RestaurantList extends React.Component {
+class RestaurantItemList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,56 +27,31 @@ class RestaurantList extends React.Component {
   }
 
   goRestaurantProfile() {
+    this.props.setCurrentRestaurant(this.props.restaurant);
     this.props.setCurrentView('RestaurantProfile');
   }
 
-  createRestaurantList() {
-    return this.props.currentRestaurants.map((restaurant, i) => {
-      console.log('restaurant: ', restaurant);
-      return <RestaurantItemList restaurant={restaurant} key={i}/>
-    })
-  }
-
   render() {
-    console.log('currentRestaurants: ', this.props.currentRestaurants);
+    let { restaurant } =  this.props;
     return (
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <TouchableOpacity onPress={this.goHome}>
-            <Icon style={styles.headerIcon} name="md-arrow-back" size={35} color="#2C0F19" />
-          </TouchableOpacity>
-          <Text style={styles.headerLabel}>Restaurantes</Text>
-        </View>
-        <View style={styles.bodyContainer}>
-          <View style={styles.restaurantList}>
-            {this.createRestaurantList()}
+      <TouchableOpacity onPress={this.goRestaurantProfile}> 
+        <View style={styles.restaurantCard}>
+          <Image style={styles.restaurantImage} source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}/>
+          <View style={styles.restaurantCardData}>
+            <Text style={styles.restaurantName}>{restaurant.name}</Text>
+            <Text>{restaurant.openAt} - {restaurant.closeAt}</Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#E9EAEE',
-  },
-  headerContainer: {
-    padding: 10,
-    flexDirection: 'row',
-    height: 60,
-    backgroundColor: '#D23540',
-    alignItems: 'center',
   },
   headerIcon: {
     padding: 10
-  },
-  headerLabel:{
-    flex: 1,
-    fontSize: 20,
-    textAlign: 'center',
-    paddingRight: 25
   },
   bodyContainer: {
     flex: 1,
@@ -109,7 +83,6 @@ const styles = StyleSheet.create({
 
 let mapStateToProps = state => {
   return {
-    currentRestaurants: state.currentRestaurants
   }
 }
 
@@ -118,10 +91,14 @@ function mapDispatchToProps(dispatch, ownProps) {
     setCurrentView: (view) => dispatch({
       type: 'SET_CURRENT_VIEW',
       view: view
+    }),
+    setCurrentRestaurant: (restaurant) => dispatch({
+      type: 'SET_CURRENT_RESTAURANT',
+      restaurant: restaurant
     })
   } 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RestaurantList);
+export default connect(mapStateToProps, mapDispatchToProps)(RestaurantItemList);
 
-AppRegistry.registerComponent('RestaurantList', () => RestaurantList);
+AppRegistry.registerComponent('RestaurantItemList', () => RestaurantItemList);
