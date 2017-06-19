@@ -12,6 +12,7 @@ import {
 import Icon from'react-native-vector-icons/Ionicons';
 import RestaurantCard from './RestaurantCard';
 import PromotionItem from './PromotionItem';
+import Api from './../api/Api';
 
 import { connect } from 'react-redux';
 
@@ -19,6 +20,7 @@ class RestaurantProfile extends React.Component {
   constructor(props) {
     super(props);
     this.goHome = this.goHome.bind(this);
+    this.followRestaurant = this.followRestaurant.bind(this);
   }
 
   goHome() {
@@ -31,6 +33,12 @@ class RestaurantProfile extends React.Component {
     })
   }
 
+  followRestaurant() {
+    restaurantId = this.props.currentRestaurant.id;
+    console.log('followRestaurant: ', restaurantId);
+    Api.followRestaurant(restaurantId);
+  }
+
   render() {
     console.log('promotions: ', this.props.currentRestaurant.promotions);
     return (
@@ -40,7 +48,9 @@ class RestaurantProfile extends React.Component {
             <Icon style={styles.personIcon} name="md-arrow-back" size={35} color="#2C0F19" />
           </TouchableOpacity>
           <Text style={styles.restaurantName}>{ this.props.currentRestaurant.name }</Text>
-          <Icon style={styles.personIcon} name="md-heart-outline" size={35} color="#2C0F19" />
+          <TouchableOpacity onPress={this.followRestaurant}>
+            <Icon style={styles.personIcon} name="md-heart-outline" size={35} color="#2C0F19" />
+          </TouchableOpacity>
         </View>
         <View style={styles.bodyContainer}>
           <RestaurantCard restaurant={this.props.currentRestaurant}/>

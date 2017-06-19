@@ -67,10 +67,32 @@ function getAllRestaurants(cb) {
     })
 }
 
+function followRestaurant(restaurantId) {
+  console.log('API followRestaurant');
+  fetch(FH_API_ENDPOINT.concat('/users/followedRestaurants'), {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6XC9cL2Zvb2RoLmhlcm9rdWFwcC5jb21cL2FwaVwvdjFcL3Nlc3Npb25zIiwiaWF0IjoxNDk3ODM5NDkxLCJleHAiOjE0OTg0NDQyOTEsIm5iZiI6MTQ5NzgzOTQ5MSwianRpIjoiZWkyZU4xSFhBNzNRbVA4MiJ9.0qdW_5HFlp-CLwoihmSUa87jHJN24crLUyvcDgoh2j0'
+    },
+    body: JSON.stringify({
+      'restaurantId': restaurantId
+    })
+  }).then((response) => {
+    console.log('satus: ',response.status);
+    return response.json()
+  }).then((responseJson) => {
+    console.log('Done... I guess')
+      // cb(responseJson.data);
+    })
+}
+
 const Api = { 
   login,
   getCategories,
   getRandomRestaurant,
   getAllRestaurants,
+  followRestaurant,
 };
 export default Api;
