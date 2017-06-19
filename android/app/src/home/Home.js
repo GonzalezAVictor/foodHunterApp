@@ -83,7 +83,6 @@ class Home extends React.Component {
   getAllRestaurants() {
     console.log('categoriesSelected: ', this.props.IdCategoriesSelected);
     let cb = (restaurants) => {
-      console.log('LAAAAAAALALALALALALA');
       this.props.setCurrentRestaurants(restaurants);
       this.props.setCurrentView('RestaurantList');
     }
