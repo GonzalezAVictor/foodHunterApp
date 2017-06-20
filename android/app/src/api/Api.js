@@ -74,12 +74,30 @@ function getRandomRestaurant(catedoriesId, cb) {
       'categoriesId': catedoriesId
     })
   }).then((response) => response.json()).then((responseJson) => {
+    console.log('responseJson: ', responseJson);
       cb(responseJson.data);
     })
 }
 
-function getAllRestaurants(cb) {
-  console.log('API getAllRestaurants');
+function getAllRestaurants(catedoriesId, cb) {
+  console.log('API getRandomRestaurant');
+  fetch(FH_API_ENDPOINT.concat('/restaurants/all'), {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      'categoriesId': catedoriesId
+    })
+  }).then((response) => response.json()).then((responseJson) => {
+    console.log('responseJson: ', responseJson);
+      cb(responseJson.data);
+    })
+}
+
+function getAllRestaurantsNoCategories(cb) {
+  console.log('API getAllRestaurantsNoCategories');
   fetch(FH_API_ENDPOINT.concat('/restaurants'), {
     method: 'GET',
     headers: {
@@ -117,8 +135,9 @@ const Api = {
   login,
   getCategories,
   getRandomRestaurant,
-  getAllRestaurants,
+  getAllRestaurantsNoCategories,
   followRestaurant,
   signUp,
+  getAllRestaurants
 };
 export default Api;

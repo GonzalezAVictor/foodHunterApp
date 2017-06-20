@@ -81,12 +81,16 @@ class Home extends React.Component {
   }
 
   getAllRestaurants() {
-    console.log('categoriesSelected: ', this.props.IdCategoriesSelected);
+    console.log('categoriesSelected: ', this.props.IdCategoriesSelected.length);
     let cb = (restaurants) => {
       this.props.setCurrentRestaurants(restaurants);
       this.props.setCurrentView('RestaurantList');
     }
-    Api.getAllRestaurants(cb);
+    if (this.props.IdCategoriesSelected.length > 0) {
+      Api.getAllRestaurants(this.props.IdCategoriesSelected, cb);
+    } else {
+      Api.getAllRestaurantsNoCategories(cb);
+    }
   }
 
   goUserProfile() {

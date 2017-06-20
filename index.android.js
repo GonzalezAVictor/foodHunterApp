@@ -9,7 +9,7 @@ let globalState = {
   IdCategoriesSelected: [],
   currentRestaurant: {},
   currentRestaurants: {},
-  currentView: 'Login'
+  currentView: ['Login']
 }
 
 function appReducer(state, action) {
@@ -44,13 +44,20 @@ function appReducer(state, action) {
       break;
     case 'SET_CURRENT_VIEW':
       console.log('SET_CURRENT_VIEW');
-      newState.currentView = action.view;
+      newState.currentView = [...newState.currentView, action.view];
       console.log(newState);
       return newState;
+      break;
+    case 'BACK_VIEW':
+      console.log('BACK_VIEW');
+      return Object.assign({}, state, { 
+        currentView: [...state.currentView.slice(0, state.currentView.length - 1)] 
+      })
       break;
     default:
       return state;
   }
+  console.log('New State: ', newState);
 }
 
 let store = createStore(appReducer, globalState);

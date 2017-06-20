@@ -7,7 +7,8 @@ import {
   Image,
   Text,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from 'react-native';
 import Icon from'react-native-vector-icons/Ionicons';
 import RestaurantItemList from './RestaurantItemList';
@@ -50,7 +51,9 @@ class RestaurantList extends React.Component {
         </View>
         <View style={styles.bodyContainer}>
           <View style={styles.restaurantList}>
-            {this.createRestaurantList()}
+            <ScrollView>
+              {this.createRestaurantList()}
+            </ScrollView>
           </View>
         </View>
       </View>

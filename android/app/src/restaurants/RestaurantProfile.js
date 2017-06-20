@@ -21,10 +21,15 @@ class RestaurantProfile extends React.Component {
     super(props);
     this.goHome = this.goHome.bind(this);
     this.followRestaurant = this.followRestaurant.bind(this);
+    this.goBack = this.goBack.bind(this);
   }
 
   goHome() {
     this.props.setCurrentView('Home');
+  }
+
+  goBack() {
+    this.props.goBack();
   }
 
   createPromotionsList() {
@@ -44,7 +49,7 @@ class RestaurantProfile extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.headerContainer}>
-          <TouchableOpacity onPress={this.goHome}>
+          <TouchableOpacity onPress={this.goBack}>
             <Icon style={styles.personIcon} name="md-arrow-back" size={35} color="#2C0F19" />
           </TouchableOpacity>
           <Text style={styles.restaurantName}>{ this.props.currentRestaurant.name }</Text>
@@ -107,7 +112,10 @@ function mapDispatchToProps(dispatch, ownProps) {
     setCurrentView: (view) => dispatch({
       type: 'SET_CURRENT_VIEW',
       view: view
-    })
+    }),
+    goBack: () => dispatch({
+      type: 'BACK_VIEW'
+    }),
   } 
 } 
 

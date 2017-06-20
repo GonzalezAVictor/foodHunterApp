@@ -21,7 +21,7 @@ class AndroidApp extends Component {
   }
 
   render() {
-    switch (this.props.currentView) {
+    switch (this.props.currentView[this.props.currentView.length - 1]) {
       case 'Home':
         return (
           <View style={{flex: 1}}>
