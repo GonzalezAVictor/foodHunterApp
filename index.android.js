@@ -9,7 +9,7 @@ let globalState = {
   IdCategoriesSelected: [],
   currentRestaurant: {},
   currentRestaurants: {},
-  currentView: 'Home'
+  currentView: 'Login'
 }
 
 function appReducer(state, action) {

@@ -6,7 +6,8 @@ import { View,
   Image,
   Text,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  KeyboardAvoidingView
 } from 'react-native';
 import Api from './../api/Api';
 
@@ -16,58 +17,114 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: '',
+      email: '',
+      name: '',
       password: '',
+      confirmPassword: '',
       errorMessage: '',
       token: '',
+      signingUp: false,
+      userData: {}
     }
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleRegister = this.handleRegister.bind(this);
+  }
+
+  componentDidMount() {
+    console.log('mounting');
+    AsyncStorage.getItem('userData').then((value) => {
+      console.log('>>>> value: ', value);
+    })
   }
 
   handleLogin() {
     credentials = {
-      userName: 'victor@gmail.com',
+      email: 'victor@gmail.com',
       password: '1234',
     };
-    let cb = (response) => {
+    let cbLogin = (response) => {
       this.setState({token: response})
       this.verifyUser();
     }
-    let response = Api.login(credentials, cb);
+    if (!this.state.signingUp) {
+      let response = Api.login(credentials, cbLogin);
+    } else {
+      let userData = {
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password
+      }
+      let cbRegister = (response) => {
+        this.setState({userData: response});
+        Api.login(userData, cbLogin);
+      }
+      
+      Api.signUp(userData, cbRegister);
+    }
   }
 
   verifyUser() {
-    if (this.state.token !== '') {
+    if (this.state.token !== '' || this.state.token !== undefined) {
       console.log(this.state.token);
       let userData = {
-        userData: this.state.userName,
+        userData: this.state.userData,
         token: this.state.token,
       };
-      AsyncStorage.setItem('userData', userData);
+      console.log('JSON.stringfy: ', JSON.stringify(userData));
+      AsyncStorage.setItem('userData', JSON.stringify(userData));
       this.props.setCurrentView('Home');
     } else {
       // TODO: mostrar 'usuario y/o contraseña no validos'
     }
   }
 
-  render() {
+  handleRegister() {
+    let newSigningUpState = this.state.signingUp;
+    this.setState({signingUp: !newSigningUpState});
+  }
 
+  cleanAS() {
+    AsyncStorage.clear();
+  }
+
+
+  render() {
+    let { signingUp } = this.state;
     return (
       <View style={ styles.container }>
+        { signingUp ? 
+          <TextInput
+          onChangeText={(text) => this.setState({email: text})}
+          style={ styles.textInput }
+          placeholder="Email"
+        /> : null}
       	<TextInput
-          onChangeText={(text) => this.setState({userName: text})}
+          onChangeText={(text) => this.setState({name: text})}
       		style={ styles.textInput }
-      		placeholder="Username"
+      		placeholder="Nombre de usuario"
     		/>
       	<TextInput
           onChangeText={(text) => this.setState({password: text})}
       		style={ styles.textInput }
-      		placeholder="Password"
+      		placeholder="Contraseña"
       		secureTextEntry
     		/>
+        { signingUp ? 
+          <TextInput
+          onChangeText={(text) => this.setState({confirmPassword: text})}
+          style={ styles.textInput }
+          placeholder="Confirmar contraseña"
+          secureTextEntry
+        /> : null}
       	<TouchableOpacity style={ styles.buttonsContainer} onPress={this.handleLogin}>
       		<Text style={ styles.buttonText }>LOGIN</Text>
       	</TouchableOpacity>
+        <TouchableOpacity style={{}} onPress={this.handleRegister}>
+          <Text style={ styles.buttonText }>registate</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{}} onPress={this.cleanAS}>
+          <Text style={ styles.buttonText }>Clean AS</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -80,7 +137,7 @@ const styles = StyleSheet.create({
   	width: 200,
   	height: 40,
   	backgroundColor: '#C2827A',
-  	marginBottom: 15,
+  	marginBottom: 10,
   	borderRadius: 4,
   },
   buttonsContainer: {
@@ -89,7 +146,7 @@ const styles = StyleSheet.create({
   	height: 30
   },
   buttonText: {
-  	textAlign: 'center'
+  	textAlign: 'center',
   }
 });
 

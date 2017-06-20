@@ -2,6 +2,7 @@
 const FH_API_ENDPOINT = 'https://foodh.herokuapp.com/api/v1';
 
 function login(credentials, cb) {
+  console.log('credentials to send: ', credentials);
   fetch(FH_API_ENDPOINT.concat('/sessions'), {
     method: 'POST',
     headers: {
@@ -9,16 +10,40 @@ function login(credentials, cb) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      email: credentials.userName,
+      email: credentials.email,
       password: credentials.password,
     })
-  }).then((response) => response.json())
+  }).then((response) => {
+    return response.json();
+  })
     .then((responseJson) => {
       cb(responseJson);
+      return null;
     })
-    .catch((error) => {
-      console.error(error);
-    });
+}
+
+function signUp(userData, cb) {
+  console.log(userData);
+  fetch(FH_API_ENDPOINT.concat('/users'), {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+    })
+  }).then((response) => {
+    console.log(response.status);
+    return response.json();
+  })
+    .then((responseJson) => {
+      console.log('signUp response: ', responseJson);
+      cb(responseJson);
+      return null;
+    })
 }
 
 function getCategories(cb) {
@@ -94,5 +119,6 @@ const Api = {
   getRandomRestaurant,
   getAllRestaurants,
   followRestaurant,
+  signUp,
 };
 export default Api;
