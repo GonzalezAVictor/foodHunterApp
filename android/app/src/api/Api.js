@@ -2,7 +2,7 @@
 const FH_API_ENDPOINT = 'https://foodh.herokuapp.com/api/v1';
 
 function login(credentials, cb) {
-  console.log('credentials to send: ', credentials);
+  console.log('credentials to send: ', credentials.email);
   fetch(FH_API_ENDPOINT.concat('/sessions'), {
     method: 'POST',
     headers: {
@@ -23,7 +23,7 @@ function login(credentials, cb) {
 }
 
 function signUp(userData, cb) {
-  console.log(userData);
+  console.log('datoc a registrar: ', userData);
   fetch(FH_API_ENDPOINT.concat('/users'), {
     method: 'POST',
     headers: {

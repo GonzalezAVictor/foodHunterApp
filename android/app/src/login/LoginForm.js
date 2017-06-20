@@ -34,6 +34,9 @@ class LoginForm extends React.Component {
     console.log('mounting');
     AsyncStorage.getItem('userData').then((value) => {
       console.log('>>>> value: ', value);
+      // if (value !== null) {
+      //   this.props.setCurrentView('Home');
+      // }
     })
   }
 
@@ -43,11 +46,12 @@ class LoginForm extends React.Component {
       password: '1234',
     };
     let cbLogin = (response) => {
+      console.log('responseeeee: ', response)
       this.setState({token: response})
       this.verifyUser();
     }
     if (!this.state.signingUp) {
-      let response = Api.login(credentials, cbLogin);
+      Api.login(credentials, cbLogin);
     } else {
       let userData = {
         name: this.state.name,
@@ -64,7 +68,10 @@ class LoginForm extends React.Component {
   }
 
   verifyUser() {
-    if (this.state.token !== '' || this.state.token !== undefined) {
+    let { token } = this.state;
+    console.log('token: ', this.state.token.token)
+    console.log('tamaño del token: ', this.state.token.length)
+    if ((token !== '' || token !== undefined) && token.token !== undefined) {
       console.log(this.state.token);
       let userData = {
         userData: this.state.userData,

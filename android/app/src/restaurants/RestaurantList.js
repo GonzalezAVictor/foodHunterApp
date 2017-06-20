@@ -25,7 +25,7 @@ class RestaurantList extends React.Component {
   }
 
   goHome() {
-    this.props.setCurrentView('Home');
+    this.props.goBack();
   }
 
   goRestaurantProfile() {
@@ -121,7 +121,10 @@ function mapDispatchToProps(dispatch, ownProps) {
     setCurrentView: (view) => dispatch({
       type: 'SET_CURRENT_VIEW',
       view: view
-    })
+    }),
+    goBack: () => dispatch({
+      type: 'BACK_VIEW'
+    }),
   } 
 }
 
