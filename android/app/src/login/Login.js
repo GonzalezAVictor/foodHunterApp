@@ -1,5 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, TextInput, AppRegistry, Image, Text } from 'react-native';
+import { 
+  View, 
+  StyleSheet, 
+  TextInput, 
+  AppRegistry, 
+  Image, 
+  Text, 
+  KeyboardAvoidingView 
+} from 'react-native';
 import LoginForm from './LoginForm';
 
 export default class Login extends React.Component {
@@ -10,25 +18,41 @@ export default class Login extends React.Component {
     super(props);
   }
 
+
+        // <View style={ styles.container }>
+
+        // </View>
   render() {
     return (
-      <View style={ styles.container }>
-      	<Image source={require('./../../../../images/Logo.jpg')}/>
-      	<LoginForm changeView={this.props.changeView}/>
-      </View>
+      <KeyboardAvoidingView style={styles.container}>
+        <View style={styles.logoContainer}>
+          <Text style={styles.logoLabel}>FOOD</Text>
+          <Text style={styles.logoLabel}>HUNTER</Text>
+        </View>
+        <View style={styles.formContainer}>
+          <LoginForm/>
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  logo: {
-    fontFamily: 'Karla',
-    fontSize: 40
-  },
   container: {
     flex: 1,
   	alignItems: 'center',
   	backgroundColor: '#B2230A',
+    paddingTop: 30
+  },
+  logoLabel: {
+    fontSize: 60
+  },
+  logoContainer: {
+    alignItems: 'center',
+    backgroundColor: '#B2230A',
+  },
+  formContainer: {
+    paddingTop: 30
   }
 });
 

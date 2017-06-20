@@ -2,6 +2,7 @@
 const FH_API_ENDPOINT = 'https://foodh.herokuapp.com/api/v1';
 
 function login(credentials, cb) {
+  console.log('credentials to send: ', credentials);
   fetch(FH_API_ENDPOINT.concat('/sessions'), {
     method: 'POST',
     headers: {
@@ -9,10 +10,12 @@ function login(credentials, cb) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      email: credentials.userName,
+      email: credentials.email,
       password: credentials.password,
     })
-  }).then((response) => response.json())
+  }).then((response) => {
+    return response.json();
+  })
     .then((responseJson) => {
       cb(responseJson);
       return null;
