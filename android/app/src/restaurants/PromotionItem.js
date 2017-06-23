@@ -10,6 +10,7 @@ import {
   Dimensions
 } from 'react-native';
 import Icon from'react-native-vector-icons/Ionicons';
+import Api from './../api/Api';
 
 export default class PromotionItem extends React.Component {
   constructor(props) {
@@ -18,6 +19,18 @@ export default class PromotionItem extends React.Component {
       showDescription: false
     }
     this.changeStateDescription = this.changeStateDescription.bind(this);
+    this.followPromotion = this.followPromotion.bind(this);
+    this.huntPromotion = this.huntPromotion.bind(this);
+  }
+
+  followPromotion() {
+    console.log('followPromotion');
+    Api.followPromotion(this.props.promotion.id);
+  }
+
+  huntPromotion() {
+    console.log('huntPromotion');
+    Api.huntPromotion(this.props.promotion.id);
   }
 
   showDescription() {
@@ -28,10 +41,10 @@ export default class PromotionItem extends React.Component {
         {promotion.promotion_type === 'flash' ? 
           <Text>{promotion.startAt} - {promotion.endAt}</Text> : <Text>Libres: {promotion.amount_available}</Text>}
           <View style={styles.buttonsContainer}>
-            <TouchableOpacity style={[styles.button, styles.buttomLeft]}>
+            <TouchableOpacity style={[styles.button, styles.buttomLeft]} onPress={this.followPromotion}>
               <Text>Seguir</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, styles.buttomRight]}>
+            <TouchableOpacity style={[styles.button, styles.buttomRight]} onPress={this.huntPromotion}>
               <Text>Cazar</Text>
             </TouchableOpacity>
           </View>

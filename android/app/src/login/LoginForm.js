@@ -33,10 +33,9 @@ class LoginForm extends React.Component {
   componentDidMount() {
     console.log('mounting');
     AsyncStorage.getItem('userData').then((value) => {
-      console.log('>>>> value: ', value);
-      // if (value !== null) {
-      //   this.props.setCurrentView('Home');
-      // }
+      if (value !== null) {
+        this.props.setCurrentView('Home');
+      }
     })
   }
 

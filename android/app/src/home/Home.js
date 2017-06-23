@@ -34,18 +34,19 @@ class Home extends React.Component {
   }
 
   componentWillMount() {
-    console.log('mounting: ', this.props.IdCategoriesSelected);
-    let cb = (response) => {
-      this.setState({
-        categories: response
-      });
-      console.log(this.state.categories);
+    let { currentCategories, setCurrentCategories } = this.props;
+    if (currentCategories.length === 0) {
+      let cb = (response) => {
+        setCurrentCategories(response);
+      }
+      Api.getCategories(cb);
+    } else {
+      console.log('las categorias han sifo fetcheadas');
     }
-    Api.getCategories(cb);
   }
 
   createCards() {
-    return this.state.categories.map((category, i) => {
+    return this.props.currentCategories.map((category, i) => {
       let selected = false;
       if (this.props.IdCategoriesSelected.indexOf(category.id) !== -1) {selected = true;}
       return <CategoryCard 
@@ -206,7 +207,8 @@ const styles = StyleSheet.create({
 
 let mapStateToProps = state => {
   return {
-    IdCategoriesSelected: state.IdCategoriesSelected
+    IdCategoriesSelected: state.IdCategoriesSelected,
+    currentCategories: state.currentCategories
   }
 }
 
@@ -231,6 +233,10 @@ function mapDispatchToProps(dispatch, ownProps) {
     setCurrentRestaurants: (restaurants) => dispatch({
       type: 'SET_CURRENT_RESTAURANTS',
       restaurants: restaurants
+    }),
+    setCurrentCategories: (categories) => dispatch({
+      type: 'SET_CURRENT_CATEGORIES',
+      categories: categories
     })
   } 
 } 

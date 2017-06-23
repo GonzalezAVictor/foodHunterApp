@@ -13,11 +13,6 @@ class AndroidApp extends Component {
     super(props);
     this.state = {
     }
-    this.handleChangeView = this.handleChangeView.bind(this);
-  }
-
-  handleChangeView(newView) {
-    this.setState({currentView: newView});
   }
 
   render() {

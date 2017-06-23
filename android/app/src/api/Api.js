@@ -131,6 +131,62 @@ function followRestaurant(restaurantId) {
     })
 }
 
+function getRestaurant(restaurantId, cb) {
+  console.log('API getRestaurant');
+  fetch(FH_API_ENDPOINT.concat(`/restaurants/${restaurantId}`), {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  }).then((response) => response.json()).then((responseJson) => {
+    console.log('Api response: ', responseJson.data);
+      cb(responseJson.data);
+    })
+}
+
+function followPromotion(promotionId) {
+  console.log('API followPromotion');
+  fetch(FH_API_ENDPOINT.concat('/users/followedPromotions'), {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6XC9cL2Zvb2RoLmhlcm9rdWFwcC5jb21cL2FwaVwvdjFcL3Nlc3Npb25zIiwiaWF0IjoxNDk3ODM5NDkxLCJleHAiOjE0OTg0NDQyOTEsIm5iZiI6MTQ5NzgzOTQ5MSwianRpIjoiZWkyZU4xSFhBNzNRbVA4MiJ9.0qdW_5HFlp-CLwoihmSUa87jHJN24crLUyvcDgoh2j0'
+    },
+    body: JSON.stringify({
+      'promotionId': promotionId
+    })
+  }).then((response) => {
+    console.log('satus: ',response.status);
+    return response.json()
+  }).then((responseJson) => {
+    console.log('responseJson: ', responseJson);
+      // cb(responseJson.data);
+    })
+}
+
+function huntPromotion(promotionId) {
+  console.log('API huntPromotion');
+  fetch(FH_API_ENDPOINT.concat('/users/followedPromotions'), {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6XC9cL2Zvb2RoLmhlcm9rdWFwcC5jb21cL2FwaVwvdjFcL3Nlc3Npb25zIiwiaWF0IjoxNDk3ODM5NDkxLCJleHAiOjE0OTg0NDQyOTEsIm5iZiI6MTQ5NzgzOTQ5MSwianRpIjoiZWkyZU4xSFhBNzNRbVA4MiJ9.0qdW_5HFlp-CLwoihmSUa87jHJN24crLUyvcDgoh2j0'
+    },
+    body: JSON.stringify({
+      'promotionId': promotionId
+    })
+  }).then((response) => {
+    console.log('satus: ',response.status);
+    return response.json()
+  }).then((responseJson) => {
+    console.log('responseJson: ', responseJson);
+      // cb(responseJson.data);
+    })
+}
+
 const Api = { 
   login,
   getCategories,
@@ -138,6 +194,9 @@ const Api = {
   getAllRestaurantsNoCategories,
   followRestaurant,
   signUp,
-  getAllRestaurants
+  getAllRestaurants,
+  getRestaurant,
+  followPromotion,
+  huntPromotion
 };
 export default Api;

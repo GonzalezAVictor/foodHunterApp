@@ -10,6 +10,7 @@ import {
   Dimensions
 } from 'react-native';
 import Icon from'react-native-vector-icons/Ionicons';
+import Api from './../api/Api';
 
 import { connect } from 'react-redux';
 
@@ -27,8 +28,12 @@ class RestaurantItemList extends React.Component {
   }
 
   goRestaurantProfile() {
-    this.props.setCurrentRestaurant(this.props.restaurant);
-    this.props.setCurrentView('RestaurantProfile');
+    let cb = (restaurant) => {
+      console.log('get restaurant callback');
+      this.props.setCurrentRestaurant(restaurant);
+      this.props.setCurrentView('RestaurantProfile');
+    }
+    Api.getRestaurant(this.props.restaurant.id, cb);
   }
 
   render() {
