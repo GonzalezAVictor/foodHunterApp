@@ -34,7 +34,7 @@ class LoginForm extends React.Component {
     console.log('mounting');
     AsyncStorage.getItem('userData').then((value) => {
       if (value !== null) {
-        this.props.setCurrentView('Home');
+        // this.props.setCurrentView('Home');
       }
     })
   }
@@ -61,15 +61,12 @@ class LoginForm extends React.Component {
         this.setState({userData: response});
         Api.login(userData, cbLogin);
       }
-      
       Api.signUp(userData, cbRegister);
     }
   }
 
   verifyUser() {
     let { token } = this.state;
-    console.log('token: ', this.state.token.token)
-    console.log('tamaño del token: ', this.state.token.length)
     if ((token !== '' || token !== undefined) && token.token !== undefined) {
       console.log(this.state.token);
       let userData = {
@@ -79,6 +76,20 @@ class LoginForm extends React.Component {
       console.log('JSON.stringfy: ', JSON.stringify(userData));
       AsyncStorage.setItem('userData', JSON.stringify(userData));
       this.props.setCurrentView('Home');
+      var tokenPivot;
+      let cb = (userData) => {
+        userData.token = tokenPivot;
+        this.props.setUserData(userData);
+      }
+
+      console.log('datos del usuario en AsyncStorage:');
+      AsyncStorage.getItem('userData').then((value) => {
+        let userData = JSON.parse(value);
+        tokenPivot = userData.token.token;
+        console.log('userData Json parse: ', userData);
+        Api.getUserData(userData.token.token, cb);
+      })
+
     } else {
       // TODO: mostrar 'usuario y/o contraseña no validos'
     }
@@ -168,6 +179,10 @@ function mapDispatchToProps(dispatch, ownProps) {
     setCurrentView: (view) => dispatch({
       type: 'SET_CURRENT_VIEW',
       view: view
+    }),
+    setUserData: (userData) => dispatch({
+      type: 'SET_USER_DATA',
+      userData: userData
     })
   } 
 } 

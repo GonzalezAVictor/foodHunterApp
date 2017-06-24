@@ -12,7 +12,9 @@ import {
 import Icon from'react-native-vector-icons/Ionicons';
 import Api from './../api/Api';
 
-export default class PromotionItem extends React.Component {
+import { connect } from 'react-redux';
+
+class PromotionItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,13 +26,13 @@ export default class PromotionItem extends React.Component {
   }
 
   followPromotion() {
-    console.log('followPromotion');
-    Api.followPromotion(this.props.promotion.id);
+    console.log('followPromotion:');
+    Api.followPromotion(this.props.promotion.id, this.props.userData.token);
   }
 
   huntPromotion() {
     console.log('huntPromotion');
-    Api.huntPromotion(this.props.promotion.id);
+    Api.huntPromotion(this.props.promotion.id, this.props.userData.token);
   }
 
   showDescription() {
@@ -77,7 +79,6 @@ export default class PromotionItem extends React.Component {
     );
   }
 }
-let promotionTitle = Dimensions.get('window').width * .87;
 
 const styles = StyleSheet.create({
   container: {
@@ -120,5 +121,13 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8
   }
 });
+
+let mapStateToProps = state => {
+  return {
+    userData: state.userData
+  }
+}
+
+export default connect(mapStateToProps)(PromotionItem);
 
 AppRegistry.registerComponent('PromotionItem', () => PromotionItem);

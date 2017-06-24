@@ -110,14 +110,14 @@ function getAllRestaurantsNoCategories(cb) {
     })
 }
 
-function followRestaurant(restaurantId) {
+function followRestaurant(restaurantId, token, action) {
   console.log('API followRestaurant');
   fetch(FH_API_ENDPOINT.concat('/users/followedRestaurants'), {
-    method: 'POST',
+    method: `${action}`,
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6XC9cL2Zvb2RoLmhlcm9rdWFwcC5jb21cL2FwaVwvdjFcL3Nlc3Npb25zIiwiaWF0IjoxNDk3ODM5NDkxLCJleHAiOjE0OTg0NDQyOTEsIm5iZiI6MTQ5NzgzOTQ5MSwianRpIjoiZWkyZU4xSFhBNzNRbVA4MiJ9.0qdW_5HFlp-CLwoihmSUa87jHJN24crLUyvcDgoh2j0'
+      'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify({
       'restaurantId': restaurantId
@@ -126,7 +126,7 @@ function followRestaurant(restaurantId) {
     console.log('satus: ',response.status);
     return response.json()
   }).then((responseJson) => {
-    console.log('Done... I guess')
+    console.log('Done... I guess: ', responseJson);
       // cb(responseJson.data);
     })
 }
@@ -145,14 +145,14 @@ function getRestaurant(restaurantId, cb) {
     })
 }
 
-function followPromotion(promotionId) {
+function followPromotion(promotionId, token) {
   console.log('API followPromotion');
   fetch(FH_API_ENDPOINT.concat('/users/followedPromotions'), {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6XC9cL2Zvb2RoLmhlcm9rdWFwcC5jb21cL2FwaVwvdjFcL3Nlc3Npb25zIiwiaWF0IjoxNDk3ODM5NDkxLCJleHAiOjE0OTg0NDQyOTEsIm5iZiI6MTQ5NzgzOTQ5MSwianRpIjoiZWkyZU4xSFhBNzNRbVA4MiJ9.0qdW_5HFlp-CLwoihmSUa87jHJN24crLUyvcDgoh2j0'
+      'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify({
       'promotionId': promotionId
@@ -166,14 +166,14 @@ function followPromotion(promotionId) {
     })
 }
 
-function huntPromotion(promotionId) {
+function huntPromotion(promotionId, token) {
   console.log('API huntPromotion');
   fetch(FH_API_ENDPOINT.concat('/users/followedPromotions'), {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6XC9cL2Zvb2RoLmhlcm9rdWFwcC5jb21cL2FwaVwvdjFcL3Nlc3Npb25zIiwiaWF0IjoxNDk3ODM5NDkxLCJleHAiOjE0OTg0NDQyOTEsIm5iZiI6MTQ5NzgzOTQ5MSwianRpIjoiZWkyZU4xSFhBNzNRbVA4MiJ9.0qdW_5HFlp-CLwoihmSUa87jHJN24crLUyvcDgoh2j0'
+      'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify({
       'promotionId': promotionId
@@ -184,6 +184,24 @@ function huntPromotion(promotionId) {
   }).then((responseJson) => {
     console.log('responseJson: ', responseJson);
       // cb(responseJson.data);
+    })
+}
+
+function getUserData(token, cb) {
+  console.log('API getUserData');
+  console.log(`Bearer ${token}`);
+  fetch(FH_API_ENDPOINT.concat('/users/profile'), {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  }).then((response) => {
+    return response.json();
+  }).then((responseJson) => {
+    console.log('Api response: ', responseJson);
+      cb(responseJson.data);
     })
 }
 
@@ -197,6 +215,7 @@ const Api = {
   getAllRestaurants,
   getRestaurant,
   followPromotion,
-  huntPromotion
+  huntPromotion,
+  getUserData
 };
 export default Api;

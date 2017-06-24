@@ -64,12 +64,9 @@ class Home extends React.Component {
     });
     if (category === -1) {
       this.props.addIdCategory(id);
-      console.log('Añadir el id de la categoria al store');
     } else {
       this.props.remomeIdCategory(id);
-      console.log('Remover el id de la categoria al store');
     }
-    console.log('id: ', category);
   }
 
   getRandomRestaurant() {
@@ -139,7 +136,7 @@ class Home extends React.Component {
           </ScrollView>
         </View>
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={ styles.button50} onPress={this.getAllRestaurants}>
+          <TouchableOpacity style={ styles.button50 } onPress={this.getAllRestaurants}>
             <Text style={ styles.showAll }>Todos</Text>
           </TouchableOpacity>
           <TouchableOpacity style={ styles.button50 } onPress={this.getRandomRestaurant}>

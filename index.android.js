@@ -10,7 +10,8 @@ let globalState = {
   currentRestaurant: {},
   currentRestaurants: {},
   currentView: ['Login'],
-  currentCategories: []
+  currentCategories: [],
+  userData: {}
 }
 
 function appReducer(state, action) {
@@ -61,15 +62,34 @@ function appReducer(state, action) {
       console.log(newState);
       return newState;
       break;
+    case 'SET_USER_DATA':
+      console.log('SET_USER_DATA');
+      newState.userData = action.userData;
+      console.log(newState);
+      return newState;
+      break;
+    case 'ADD_RESTAURANT_TO_USER':
+      console.log('ADD_RESTAURANT_TO_USER');
+      newState.userData.followedRestaurants = [...newState.userData.followedRestaurants, action.restaurantId];
+      console.log(newState);
+      return newState;
+      break;
+    case 'REMOVE_RESTAURANT_TO_USER':
+      console.log('REMOVE_RESTAURANT_TO_USER');
+      let restaurantIndex = state.userData.followedRestaurants.findIndex((restaurantId) => {
+        return restaurantId === action.restaurantId;
+      });
+      newState.userData.followedRestaurants = [...state.userData.followedRestaurants.slice(0, restaurantIndex), ...state.userData.followedRestaurants.slice(restaurantIndex + 1)];
+      return newState;
+      break;
     default:
+    console.log('no pusiste el TYPE correcto');
       return state;
   }
   console.log('New State: ', newState);
 }
 
 let store = createStore(appReducer, globalState);
-
-console.log('store: ', store.getState());
 
 export default class foodHunterApp extends Component {
   constructor(props) {

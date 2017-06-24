@@ -19,9 +19,13 @@ import { connect } from 'react-redux';
 class RestaurantProfile extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      followed: this.isRestaurantFollowed()
+    }
     this.goHome = this.goHome.bind(this);
     this.followRestaurant = this.followRestaurant.bind(this);
     this.goBack = this.goBack.bind(this);
+    this.isRestaurantFollowed = this.isRestaurantFollowed.bind(this);
   }
 
   goHome() {
@@ -39,9 +43,25 @@ class RestaurantProfile extends React.Component {
   }
 
   followRestaurant() {
-    restaurantId = this.props.currentRestaurant.id;
+    let { userData, addRestaurantToUser, currentRestaurant, removeRestaurantToUser } = this.props;
+    restaurantId = currentRestaurant.id;
     console.log('followRestaurant: ', restaurantId);
-    Api.followRestaurant(restaurantId);
+    console.log(this.isRestaurantFollowed());
+    if (this.isRestaurantFollowed()) {
+      removeRestaurantToUser(restaurantId);
+      Api.followRestaurant(restaurantId, userData.token, 'DELETE');
+      this.setState({followed: false});
+    } else {
+      addRestaurantToUser(restaurantId);
+      Api.followRestaurant(restaurantId, userData.token, 'POST');
+      this.setState({followed: true});
+    }
+  }
+
+  isRestaurantFollowed() {
+    let { userData, currentRestaurant } = this.props;
+    restaurantId = currentRestaurant.id;
+    if (userData.followedRestaurants.indexOf(restaurantId) === -1) {return false} else {return true}
   }
 
   render() {
@@ -54,7 +74,11 @@ class RestaurantProfile extends React.Component {
           </TouchableOpacity>
           <Text style={styles.restaurantName}>{ this.props.currentRestaurant.name }</Text>
           <TouchableOpacity onPress={this.followRestaurant}>
+          {
+            this.state.followed ? 
+            <Icon style={styles.personIcon} name="md-heart" size={35} color="#2C0F19" /> :
             <Icon style={styles.personIcon} name="md-heart-outline" size={35} color="#2C0F19" />
+          }
           </TouchableOpacity>
         </View>
         <View style={styles.bodyContainer}>
@@ -103,7 +127,8 @@ const styles = StyleSheet.create({
 
 let mapStateToProps = state => {
   return {
-    currentRestaurant: state.currentRestaurant
+    currentRestaurant: state.currentRestaurant,
+    userData: state.userData
   }
 }
 
@@ -115,6 +140,14 @@ function mapDispatchToProps(dispatch, ownProps) {
     }),
     goBack: () => dispatch({
       type: 'BACK_VIEW'
+    }),
+    addRestaurantToUser: (restaurantId) => dispatch({
+      type: 'ADD_RESTAURANT_TO_USER',
+      restaurantId: restaurantId
+    }),
+    removeRestaurantToUser: (restaurantId) => dispatch({
+      type: 'REMOVE_RESTAURANT_TO_USER',
+      restaurantId: restaurantId
     }),
   } 
 } 

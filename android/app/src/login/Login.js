@@ -17,11 +17,7 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
   }
-
-
-        // <View style={ styles.container }>
-
-        // </View>
+  
   render() {
     return (
       <KeyboardAvoidingView style={styles.container}>
