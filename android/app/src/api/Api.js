@@ -187,10 +187,11 @@ function huntPromotion(promotionId, token) {
     })
 }
 
-function getUserData(token, cb) {
+function getUserData(token, cb, allData: Boolean) {
   console.log('API getUserData');
-  console.log(`Bearer ${token}`);
-  fetch(FH_API_ENDPOINT.concat('/users/profile'), {
+  let include = '';
+  include = allData ? '?include=all' : '';
+  fetch(FH_API_ENDPOINT.concat(`/users/profile${include}`), {
     method: 'GET',
     headers: {
       'Accept': 'application/json',

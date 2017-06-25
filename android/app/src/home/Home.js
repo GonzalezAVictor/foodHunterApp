@@ -105,6 +105,7 @@ class Home extends React.Component {
       return <View style={{ flexDirection:'row', flex: 1 }}>
         <TextInput
           style={styles.searchBar}
+          underlineColorAndroid= 'transparent'
         />
         <TouchableOpacity onPress={this.search}>
           <Icon style={styles.personIcon} name="md-search" size={35} color="#2C0F19" />

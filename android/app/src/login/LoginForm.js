@@ -114,17 +114,20 @@ class LoginForm extends React.Component {
           onChangeText={(text) => this.setState({email: text})}
           style={ styles.textInput }
           placeholder="Email"
+          underlineColorAndroid= 'transparent'
         /> : null}
       	<TextInput
           onChangeText={(text) => this.setState({name: text})}
       		style={ styles.textInput }
       		placeholder="Nombre de usuario"
+          underlineColorAndroid= 'transparent'
     		/>
       	<TextInput
           onChangeText={(text) => this.setState({password: text})}
       		style={ styles.textInput }
       		placeholder="Contraseña"
       		secureTextEntry
+          underlineColorAndroid= 'transparent'
     		/>
         { signingUp ? 
           <TextInput
@@ -132,6 +135,7 @@ class LoginForm extends React.Component {
           style={ styles.textInput }
           placeholder="Confirmar contraseña"
           secureTextEntry
+          underlineColorAndroid= 'transparent'
         /> : null}
       	<TouchableOpacity style={ styles.buttonsContainer} onPress={this.handleLogin}>
       		<Text style={ styles.buttonText }>LOGIN</Text>
